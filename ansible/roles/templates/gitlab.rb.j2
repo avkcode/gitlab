@@ -17,3 +17,17 @@ nginx['ssl_certificate_key'] = "{{ gitlab_config_path }}/ssl/{{ gitlab_tls_key_f
 
 # Logging
 logging['level'] = "info"
+
+# Enable Prometheus metrics
+prometheus_monitoring['enable'] = true
+node_exporter['enable'] = true
+redis_exporter['enable'] = true
+postgres_exporter['enable'] = true
+gitlab_exporter['enable'] = true
+
+# Prometheus listen address
+prometheus['listen_address'] = "0.0.0.0:9090"
+
+# Grafana integration (optional)
+grafana['enable'] = {{ gitlab_grafana_enabled | default(false) | bool }}
+grafana['admin_password'] = "{{ gitlab_grafana_admin_password }}"

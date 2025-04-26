@@ -1,0 +1,12 @@
+- hosts: gitlab_servers
+  become: true
+  roles:
+    - role: gitlab
+      vars:
+        gitlab_tls_enabled: true
+        gitlab_tls_cert_file: "gitlab.crt"
+        gitlab_tls_key_file: "gitlab.key"
+        gitlab_prometheus_enabled: true
+        gitlab_grafana_enabled: true
+        gitlab_backup_enabled: true
+        gitlab_backup_keep_time: "14d"

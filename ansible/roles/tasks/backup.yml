@@ -1,0 +1,30 @@
+# File: tasks/backup.yml - Backup tasks for GitLab
+
+- name: Create backup directory
+  become: true
+  file:
+    path: "{{ gitlab_backup_path }}"
+    state: directory
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0750"
+
+- name: Schedule GitLab backup cron job
+  become: true
+  cron:
+    name: "GitLab Backup"
+    minute: "{{ gitlab_backup_cron_schedule.split(' ')[0] }}"
+    hour: "{{ gitlab_backup_cron_schedule.split(' ')[1] }}"
+    day: "{{ gitlab_backup_cron_schedule.split(' ')[2] }}"
+    month: "{{ gitlab_backup_cron_schedule.split(' ')[3] }}"
+    weekday: "{{ gitlab_backup_cron_schedule.split(' ')[4] }}"
+    job: "gitlab-backup create CRON=1"
+    user: "{{ gitlab_user }}"
+  when: gitlab_backup_enabled | bool
+
+- name: Clean up old backups
+  become: true
+  shell: >
+    find {{ gitlab_backup_path }} -type f -mtime +{{ gitlab_backup_keep_time | regex_replace('d', '') }} -exec rm -f {} \;
+  args:
+    executable: /bin/bash

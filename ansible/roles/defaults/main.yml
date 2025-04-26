@@ -21,3 +21,14 @@ gitlab_service_name: "gitlab-runsvdir"
 gitlab_manage_user: true
 gitlab_user: "git"
 gitlab_group: "git"
+
+# Prometheus and Grafana settings
+gitlab_prometheus_enabled: true
+gitlab_grafana_enabled: false
+gitlab_grafana_admin_password: "admin"
+
+# Backup settings
+gitlab_backup_enabled: true
+gitlab_backup_path: "/var/opt/gitlab/backups"
+gitlab_backup_keep_time: "7d"  # Retain backups for 7 days
+gitlab_backup_cron_schedule: "0 2 * * *"  # Daily at 2 AM

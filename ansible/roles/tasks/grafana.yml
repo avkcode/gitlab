@@ -1,0 +1,14 @@
+# File: tasks/grafana.yml - Grafana configuration tasks
+
+- name: Install Grafana
+  become: true
+  package:
+    name: "grafana"
+    state: present
+
+- name: Start and enable Grafana service
+  become: true
+  service:
+    name: "grafana-server"
+    state: started
+    enabled: true

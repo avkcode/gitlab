@@ -1,0 +1,19 @@
+# File: tasks/restore.yml - Restore tasks for GitLab
+
+- name: Stop GitLab services for restore
+  become: true
+  command: "gitlab-ctl stop"
+
+- name: Restore GitLab backup
+  become: true
+  command: "gitlab-backup restore BACKUP={{ gitlab_restore_backup_name }}"
+  args:
+    chdir: "{{ gitlab_backup_path }}"
+  vars:
+    gitlab_restore_backup_name: "{{ lookup('env', 'GITLAB_RESTORE_BACKUP_NAME') }}"
+  when: gitlab_restore_backup_name is defined
+
+- name: Reconfigure and restart GitLab services
+  become: true
+  command: "gitlab-ctl reconfigure"
+  notify: Restart GitLab

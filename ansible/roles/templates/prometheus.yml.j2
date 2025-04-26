@@ -1,0 +1,6 @@
+# File: templates/prometheus.yml.j2 - Prometheus scrape configuration
+
+scrape_configs:
+  - job_name: 'gitlab'
+    static_configs:
+      - targets: ['{{ ansible_fqdn }}:9090']

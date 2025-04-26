@@ -1,0 +1,27 @@
+# File: tasks/prometheus.yml - Prometheus configuration tasks
+
+- name: Ensure Prometheus directory exists
+  become: true
+  file:
+    path: "/var/opt/gitlab/prometheus"
+    state: directory
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0750"
+
+- name: Configure Prometheus scrape targets
+  become: true
+  template:
+    src: "prometheus.yml.j2"
+    dest: "/etc/prometheus/prometheus.yml"
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0640"
+  notify: Restart Prometheus
+
+- name: Start and enable Prometheus service
+  become: true
+  service:
+    name: "prometheus"
+    state: started
+    enabled: true

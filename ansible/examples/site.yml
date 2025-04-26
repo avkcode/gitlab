@@ -1,0 +1,21 @@
+# File: site.yml - Example GitLab playbook without monitoring and backups
+
+- name: Install GitLab
+  hosts: gitlab_servers
+  become: true
+  roles:
+    - role: gitlab
+      vars:
+        # Disable monitoring features
+        gitlab_prometheus_enabled: false
+        gitlab_grafana_enabled: false
+
+        # Disable backup features
+        gitlab_backup_enabled: false
+
+        # Basic GitLab configuration
+        gitlab_tls_enabled: true
+        gitlab_tls_cert_file: "gitlab.crt"
+        gitlab_tls_key_file: "gitlab.key"
+        gitlab_version: "16.0.0"
+        gitlab_package_name: "gitlab-ee"
