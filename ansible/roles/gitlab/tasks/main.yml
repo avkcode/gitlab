@@ -7,6 +7,7 @@
       files:
         - "vars/{{ ansible_os_family }}.yml"
         - "vars/default.yml"
+      skip: true
 
 - name: Add GitLab group
   become: true

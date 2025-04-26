@@ -1,0 +1,8 @@
+- name: Run gitlab-ctl reconfigure (creates service files)
+  become: true
+  command: gitlab-ctl reconfigure
+  register: gitlab_reconfigure
+  changed_when: "'Chef Run complete' in gitlab_reconfigure.stdout"
+  tags: 
+    - config
+    - install

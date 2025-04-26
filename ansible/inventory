@@ -1,0 +1,13 @@
+#[gitlab_servers]
+#gitlab.example.com  # Replace with your server's hostname or IP
+
+#[gitlab_servers:vars]
+#ansible_user=your_ssh_user
+#ansible_ssh_private_key_file=~/.ssh/your_private_key
+
+
+[gitlab_servers]
+localhost ansible_connection=local
+
+[gitlab_servers:vars]
+ansible_user=root  # or your sudo-enabled user

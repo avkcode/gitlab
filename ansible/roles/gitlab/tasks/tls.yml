@@ -1,5 +1,15 @@
 # File: tasks/tls.yml - GitLab TLS tasks
 
+- name: Ensure SSL directory exists
+  become: true
+  file:
+    path: "{{ gitlab_tls_dest_dir }}"
+    state: directory
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0750"
+  tags: tls
+
 - name: Create TLS directory
   become: true
   file:

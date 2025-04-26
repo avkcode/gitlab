@@ -1,0 +1,5 @@
+# /srv/gitlab/ansible/roles/gitlab/vars/default.yml
+---
+gitlab_service_name: gitlab-runsvdir
+gitlab_config_path: /etc/gitlab
+gitlab_data_path: /var/opt/gitlab

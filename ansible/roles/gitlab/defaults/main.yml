@@ -11,13 +11,14 @@ gitlab_data_path: "/var/opt/gitlab"
 gitlab_log_path: "/var/log/gitlab"
 
 # TLS configuration
+gitlab_tls_dest_dir: "/etc/gitlab/ssl"
 gitlab_tls_enabled: false
 gitlab_tls_cert_file: "gitlab.crt"
 gitlab_tls_key_file: "gitlab.key"
-gitlab_tls_src_files: "/path/to/tls/files"
+gitlab_tls_src_files: "{{ role_path }}/files/tls"
 
 # Service management
-gitlab_service_name: "gitlab-runsvdir"
+gitlab_service_name: "gitlab-runsvdir.service"
 gitlab_manage_user: true
 gitlab_user: "git"
 gitlab_group: "git"
