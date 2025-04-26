@@ -1,0 +1,19 @@
+# File: templates/gitlab.rb.j2 - GitLab configuration template
+
+external_url '{{ gitlab_tls_enabled | ternary("https", "http") }}://{{ ansible_fqdn }}'
+
+# Git data directory
+git_data_dirs({
+  "default" => {
+    "path" => "{{ gitlab_data_path }}"
+  }
+})
+
+# Enable TLS if configured
+{% if gitlab_tls_enabled %}
+nginx['ssl_certificate'] = "{{ gitlab_config_path }}/ssl/{{ gitlab_tls_cert_file }}"
+nginx['ssl_certificate_key'] = "{{ gitlab_config_path }}/ssl/{{ gitlab_tls_key_file }}"
+{% endif %}
+
+# Logging
+logging['level'] = "info"

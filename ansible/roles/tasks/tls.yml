@@ -1,0 +1,28 @@
+# File: tasks/tls.yml - GitLab TLS tasks
+
+- name: Create TLS directory
+  become: true
+  file:
+    path: "{{ gitlab_tls_src_files }}"
+    state: directory
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0750"
+
+- name: Copy TLS certificate
+  become: true
+  copy:
+    src: "{{ gitlab_tls_src_files }}/{{ gitlab_tls_cert_file }}"
+    dest: "{{ gitlab_config_path }}/ssl/{{ gitlab_tls_cert_file }}"
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0644"
+
+- name: Copy TLS key
+  become: true
+  copy:
+    src: "{{ gitlab_tls_src_files }}/{{ gitlab_tls_key_file }}"
+    dest: "{{ gitlab_config_path }}/ssl/{{ gitlab_tls_key_file }}"
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0600"

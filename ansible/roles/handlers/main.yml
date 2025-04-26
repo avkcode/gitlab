@@ -1,0 +1,11 @@
+# File: handlers/main.yml - GitLab handlers
+
+- name: Restart GitLab
+  become: true
+  service:
+    name: "{{ gitlab_service_name }}"
+    state: restarted
+
+- name: Reload GitLab
+  become: true
+  command: "gitlab-ctl reconfigure"

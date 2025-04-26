@@ -1,0 +1,20 @@
+# File: tasks/configure.yml - GitLab configuration tasks
+
+- name: Create GitLab configuration directory
+  become: true
+  file:
+    path: "{{ gitlab_config_path }}"
+    state: directory
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0750"
+
+- name: Generate GitLab configuration file
+  become: true
+  template:
+    src: "gitlab.rb.j2"
+    dest: "{{ gitlab_config_path }}/gitlab.rb"
+    owner: "{{ gitlab_user }}"
+    group: "{{ gitlab_group }}"
+    mode: "0640"
+  notify: Restart GitLab

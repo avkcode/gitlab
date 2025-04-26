@@ -1,0 +1,34 @@
+# File: tasks/main.yml - Main tasks for GitLab
+
+- name: Include OS-specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "vars/{{ ansible_os_family }}.yml"
+        - "vars/default.yml"
+
+- name: Add GitLab group
+  become: true
+  group:
+    name: "{{ gitlab_group }}"
+    state: present
+
+- name: Add GitLab user
+  become: true
+  user:
+    name: "{{ gitlab_user }}"
+    comment: "GitLab user"
+    group: "{{ gitlab_group }}"
+    system: true
+  when: gitlab_manage_user | bool
+
+- name: Install GitLab
+  include_tasks: install.yml
+
+- name: Configure GitLab
+  include_tasks: configure.yml
+
+- name: Setup TLS
+  include_tasks: tls.yml
+  when: gitlab_tls_enabled | bool

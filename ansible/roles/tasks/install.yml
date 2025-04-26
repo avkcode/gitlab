@@ -1,0 +1,28 @@
+# File: tasks/install.yml - GitLab installation tasks
+
+- name: Add GitLab repository
+  become: true
+  get_url:
+    url: "{{ gitlab_install_url }}"
+    dest: "/tmp/gitlab-repo-setup.sh"
+    mode: "0755"
+
+- name: Run GitLab repository setup script
+  become: true
+  shell: "/tmp/gitlab-repo-setup.sh"
+  args:
+    executable: /bin/bash
+
+- name: Install GitLab package
+  become: true
+  apt:
+    name: "{{ gitlab_package_name }}"
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Start and enable GitLab service
+  become: true
+  service:
+    name: "{{ gitlab_service_name }}"
+    state: started
+    enabled: true

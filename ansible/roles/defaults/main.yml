@@ -1,0 +1,23 @@
+# File: defaults/main.yml - Default variables for GitLab
+
+# Core variables
+gitlab_version: "{{ lookup('env', 'GITLAB_VERSION') | default('16.0.0', true) }}"
+gitlab_package_name: "gitlab-ee"  # or "gitlab-ce" for Community Edition
+gitlab_install_url: "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh"
+
+# Paths
+gitlab_config_path: "/etc/gitlab"
+gitlab_data_path: "/var/opt/gitlab"
+gitlab_log_path: "/var/log/gitlab"
+
+# TLS configuration
+gitlab_tls_enabled: false
+gitlab_tls_cert_file: "gitlab.crt"
+gitlab_tls_key_file: "gitlab.key"
+gitlab_tls_src_files: "/path/to/tls/files"
+
+# Service management
+gitlab_service_name: "gitlab-runsvdir"
+gitlab_manage_user: true
+gitlab_user: "git"
+gitlab_group: "git"
